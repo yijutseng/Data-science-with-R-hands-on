@@ -1,0 +1,325 @@
+---
+title: "資料科學與R語言-動手做"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(readr) 
+library(XML)
+library(rvest) 
+library(ggplot2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R101
+
+### R = Base + Other Packages
+
+如何載入`ggplot2`套件呢?
+```{r pkgload, exercise=T}
+
+```
+<div id="pkgload-hint">
+**Hint:** `library()`
+</div>
+
+### 變數指定
+新增一個變數`num`，並將其值指定為100，最後嘗試著印出來看看
+```{r var, exercise=T}
+
+```
+<div id="var-hint">
+**Hint:** `num<-`
+</div>
+
+
+### 數學運算
+
+試著用R語言計算50加6後，乘以70，最後再除以3 
+```{r cal, exercise=T}
+
+```
+
+試著用R語言計算50加6後，乘以70，最後再除以3，並將答案四捨五入
+```{r calround, exercise=T}
+
+```
+
+
+## 資料結構
+
+### 向量
+新增一向量a，包含數字1到10，接著新增一向量b，包含數字1到20中的所有偶數，嘗試取出a向量的第4個元素以及b向量的第5,6,7個元素
+```{r vec1, exercise=T}
+a<- #改在這
+b<- #改在這
+a #怎麼取第四個元素？
+b #怎麼取第5,6,7個元素？
+```
+
+
+新增一向量a，為1到6連續數字，接著新增一向量b，包含3到5的連續數字，a+b =?
+```{r vec2, exercise=T}
+a<- #1到6連續數字
+b<- #3到5的連續數字
+a+b
+```
+
+```{r vec-q2, echo=FALSE}
+question("a+b =?",
+  answer("4,6,8,7,9,11", correct = TRUE),
+  answer("4,6,8,4,5,6"),
+  answer("4,6,8"),
+  answer("Error，不同長度的向量不能相加")
+)
+```
+
+### 列表
+
+有一個列表listSample，請嘗試取出取出分數Score資料 (值)
+```{r list1, exercise=T}
+listSample<-list(Students=c("Tom","Kobe","Emma"),
+                 Year=2017,
+                 Score=c(60,50,80,40),
+                 School="CGU")
+# 取出分數Score資料 (值)
+```
+<div id="list1-hint">
+**Hint:** `listSample$`
+</div>
+
+有一個列表listSample，新增後發現學校名稱打錯了，應該是CGUST，請改列表資料，並在列表中新增學期資料，且設定為上學期
+```{r list, exercise=T}
+listSample<-list(Students=c("Tom","Kobe","Emma"),
+                 Year=2017,
+                 Score=c(60,50,80,40),
+                 School="CGU")
+# 應該是CGUST，請改列表資料
+# 新增學期資料，且設定為上學期
+listSample
+```
+<div id="list-hint">
+**Hint:** `listSample$School<-`
+</div>
+
+
+### 資料框
+```{r dataframe-q, echo=FALSE}
+question("在資料框中，每個欄位中的資料型態可以不同（如數字字串混用）",
+  answer("對"),
+  answer("錯", correct = TRUE)
+)
+```
+
+請問iris資料框中，如何檢查有幾個欄位，幾個觀察值？
+```{r df1, exercise=T}
+
+```
+
+```{r df1-q1, echo=FALSE}
+question("請問iris資料框中，有幾個欄位，幾個觀察值？",
+  answer("150個欄位，5個觀察值"),
+  answer("150個觀察值，5個欄位", correct = TRUE)
+)
+```
+
+### 屬性查詢函數
+
+資料屬性可透過下列函數查詢:
+- 名稱 `names()`
+- 各維度名稱 `dimnames()`
+- 長度 `length()`
+- 各維度長度 `dim()`
+- 資料型態 `class()`
+- 各類資料計數 `table()`
+- 總覽資料 `str()`
+
+R的內建資料集**airquality**內有幾筆觀察值？每筆觀察值內有幾個變數？
+```{r str1, exercise=T}
+
+```
+
+```{r str1-q1, echo=FALSE}
+question("R的內建資料集airquality內有幾筆觀察值？每筆觀察值內有幾個變數？",
+  answer("153個變數，6個觀察值", correct = TRUE),
+  answer("6個觀察值，153個變數")
+)
+```
+<div id="str1-hint">
+**Hint:** `str()`
+</div>
+
+R的內建資料集**airquality**裡面的**Month**變數中，各月份出現的次數是多少？
+```{r table1, exercise=T}
+
+```
+<div id="table1-hint">
+**Hint:** `table()`
+</div>
+
+## If For- 控制流程
+
+### [if]-[else if]-[else]
+新增一個數值price，值設定為199。
+撰寫if- else if - else條件判斷式，依price變數數值判斷，邏輯如下：
+小於100元，印出"不用考慮"，
+大於等於100元，小於1000元，印出"需要考慮一分鐘"，
+大於等於1000元，印出"買不起"
+```{r if1, exercise=T}
+price<-199
+
+
+```
+<div id="if1-hint">
+**Hint:** 
+if(...){
+
+}else if(...){
+  
+}else{
+  
+}
+</div>
+
+### ifelse()
+
+基於iris資料內的Sepal.Length欄位，新增一個Type欄位，並依以下邏輯設定數值。
+邏輯:如果Sepal.Length大於5.5，Type設定為"長"，小於等於5.5，Type設定為短
+```{r ifelse, exercise=T}
+
+
+```
+<div id="ifelse-hint">
+**Hint:** `iris$Type<-ifelse(....,"長","短")`
+</div>
+
+### For迴圈
+寫一個for迴圈，逐一將有1到5連續數字的向量a中的所有元素印出
+```{r for, exercise=T}
+a<-1:5
+
+```
+
+有段for迴圈與if-else的程式碼如下：
+```{r}
+for (n in 1:4){
+  if(n%%2==0){ #偶數直接輸出數字
+    print(n)
+  }else{
+    print("奇數") #奇數則輸出"奇數"
+  }
+}
+```
+用`ifelse()`函數改寫上述範例
+```{r forifelse, exercise=T}
+for (n in 1:4){
+  
+}
+```
+
+有一向量a，包含1~10的連續整數，請撰寫一個for迴圈，逐一印出向量a內的元素，但遇到3的倍數時，跳過不印
+```{r fornext, exercise=T}
+a<-1:10
+for (n in a){
+  
+}
+```
+<div id="fornext-hint">
+**Hint:** `next`
+</div>
+
+有一向量a，包含1~20的所有奇數，請撰寫一個for迴圈，逐一印出向量a內的元素，但遇到13的倍數時，直接跳出迴圈，不繼續執行
+```{r forbreak, exercise=T}
+a<-seq(1,20,2)
+for (n in a){
+  
+}
+```
+<div id="forbreak-hint">
+**Hint:** `break`
+</div>
+
+## Data IO- 資料讀取
+
+### 從檔案讀取資料
+有一個網路上的csv檔，連結網址為`https://raw.githubusercontent.com/yijutseng/BigDataCGUIM/master/files/opendata10401.csv`，請問如何匯入R中作分析?
+```{r csvload, exercise=T}
+library(readr) 
+#在此撰寫答案
+openData<- 
+str(openData)
+```
+<div id="csvload-hint">
+**Hint:** `read_csv("...")`
+</div>
+
+
+```{r openData-col, echo=FALSE}
+question("How many columns in openData?",
+  answer("12"),
+  answer("5"),
+  answer("7851"),
+  answer("11", correct = TRUE)
+)
+```
+
+```{r openData-row, echo=FALSE}
+question("How many rows in openData",
+  answer("12"),
+  answer("6894"),
+  answer("7851", correct = TRUE),
+  answer("11")
+)
+```
+
+### 從網路讀取資料
+
+#### XML
+載入桃園捷運車站出入口基本資料(開放資料)，網址為http://data.tycg.gov.tw/opendata/datalist/datasetMeta/download?id=b2653545-9425-46df-9a50-74ade59ab0cf&rid=f6362ce8-719b-4752-bec6-7fd995b623fd，嘗試取得各站出入口敘述(LocationDescription)與經緯度(PositionLon,PositionLat)資訊。
+
+```{r xmlexit, exercise=TRUE}
+library(XML)
+stationURL<- '' #將要從網路上抓的資料網址放在這
+
+```
+
+```{r xmlexit-solution, eval=FALSE}
+#參考以下範例修改
+library(XML)
+waterURL<-"http://data.taipei/opendata/datalist/datasetMeta/download?id=961ca397-4a59-45e8-b312-697f26b059dc&rid=190796c8-7c56-42e0-8068-39242b8ec927"
+waterQ <- xmlParse(waterURL)
+xpathSApply(waterQ,"//longitude",xmlValue)[1:10]
+```
+
+
+```{r xmlexit-result, echo=FALSE}
+question("依照上列問題，五工路37號的出口經緯度為?",
+  answer("121.482,25.054"),
+  answer("121.459,25.062", correct = TRUE),
+  answer("121.515,25.048"),
+  answer("121.513,25.048")
+)
+```
+
+
+
+#### 爬蟲
+試著爬[Ptt Tech_Job 版]`https://www.ptt.cc/bbs/Tech_Job/index.html`，爬出所有標題，並看看爬出的第三個標題是什麼?
+
+```{r rvest, exercise=TRUE}
+library(rvest) 
+PttURL<-"" #將要從網路上抓的資料網址放在這
+#試著讀網頁檔吧
+#試著爬出標題吧
+#取出第三個標題
+```
+
+```{r rvest-solution, eval=FALSE}
+#參考以下範例修改
+library(rvest) 
+DCardCGU<-"https://www.dcard.tw/f/cgu?latest=true"
+DCardContent<-read_html(DCardCGU)
+post_title <- DCardContent %>% html_nodes(".PostEntry_unread_2U217") %>% html_text()
+```
